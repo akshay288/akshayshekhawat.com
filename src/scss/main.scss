@@ -1,0 +1,45 @@
+* {
+    box-sizing: border-box;
+}
+
+html,body {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.main-content {
+	margin: auto;
+	max-width: 700px;
+	padding: 20px;
+}
+
+.page-title {
+	color: black;
+	text-decoration: none;
+}
+
+.external-websites {
+	display: flex;
+	font-size: 18px;
+	margin-top: 10px;
+
+	a {
+		margin: 0 5px;
+		border-radius: 5px;
+		text-decoration: none;
+		color: white;
+		width: 40px;
+		text-align: center;
+		line-height: 40px;
+	}
+
+	.github { background-color: black; }
+	.keybase { background-color: #ff6f21; }
+	.mail { background-color: gray; }
+}

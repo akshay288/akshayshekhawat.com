@@ -1,0 +1,23 @@
+extends ./template.pug
+
+block body
+	h1
+		a.page-title(href="/", title="home") Akshay Shekhawat
+	p
+		| Hello, I am a software developer in Minneapolis, Minnesota.
+		| You can see the side projects I am currently working on at my
+		= " "
+		a(href="//github.com/akshay288") github
+		| .
+		= " "
+		| I will generally write about software in general and my projects on my
+		= " "
+		a(href="/blog/") blog
+		| .
+	div.external-websites
+		a.github(href="//github.com/akshay288", target="_blank")
+			i.socicon-github
+		a.keybase(href="//keybase.io/akshay288", target="_blank")
+			i.socicon-keybase
+		a.mail(href="mailto:akshay.shekhawat@gmail.com")
+			i.socicon-mail

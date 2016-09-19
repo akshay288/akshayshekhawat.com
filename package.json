@@ -1,0 +1,21 @@
+{
+  "name": "akshayshekhawat.com",
+  "version": "0.0.0",
+  "description": "My personal website",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akshay288/akshayshekhawat.com.git"
+  },
+  "author": "Akshay Shekhawat",
+  "bugs": {
+    "url": "https://github.com/akshay288/akshayshekhawat.com/issues"
+  },
+  "homepage": "https://github.com/akshay288/akshayshekhawat.com#readme",
+  "private": true,
+  "devDependencies": {
+	  "gulp": "^3.9.1",
+	  "gulp-pug": "^3.0.3",
+	  "gulp-sass": "^2.3.2",
+	  "gulp-uglify": "^1.5.3"
+  }
+}
