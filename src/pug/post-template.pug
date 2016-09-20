@@ -1,0 +1,16 @@
+extends ./template.pug
+
+mixin postTitle(name, date, link)
+	div.post-header
+		h1
+			a.page-title(href=link) #{name}
+		span.date #{date}
+
+block body
+	h3.post-page-title
+		a.page-title(href="/blog/") Akshay's Blog
+		= " "
+		a.page-title.subpage(href="/") home
+		= " "
+		a.page-title.subpage(href="/blog") blog
+	block post-content

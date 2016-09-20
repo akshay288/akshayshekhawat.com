@@ -1,1 +1,17 @@
 extends ../template.pug
+
+mixin post(name, date, link)
+	div.post
+		h3.name
+			a(href=link) #{name}
+		div.post-meta
+			span.date #{date}
+
+block body
+	h1
+		a.page-title(href="/blog/") Akshay's Blog
+		= " "
+		a.page-title.subpage(href="/") (back to home)
+	h3 Posts
+	div.posts
+		| No posts

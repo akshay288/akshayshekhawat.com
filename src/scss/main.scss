@@ -22,6 +22,11 @@ html {
 .page-title {
 	color: black;
 	text-decoration: none;
+
+	&.subpage {
+		color: grey;
+		font-size: .75em;
+	}
 }
 
 .external-websites {
@@ -43,4 +48,27 @@ html {
 	.github { background-color: black; }
 	.keybase { background-color: #ff6f21; }
 	.mail { background-color: gray; }
+}
+
+.post {
+	.name {
+		margin: 5px 0;
+	}
+	.post-meta {
+		.date { color: gray; }
+	}
+}
+
+.post-page-title {
+	margin-top: 0;
+	margin-bottom: 50px;
+}
+
+.post-header {
+	h1 { margin: 5px 0; }
+	.date {
+		color: gray;
+		font-size: 18px;
+	}
+	margin-bottom: 20px;
 }
