@@ -4,6 +4,7 @@
 
 .pic-container {
 	width: 100%;
+	margin: 20px 0;
 }
 
 .input-container {
@@ -15,4 +16,8 @@
 
 #equation-input {
 	font-size: 1.5em;
+}
+
+.credits-container {
+	text-align: center;
 }
