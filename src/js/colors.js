@@ -18,7 +18,7 @@ var colorMap = {
 var pi = "";
 
 var numDots = 20;
-var dotWidthFactor = 0.75;
+var dotWidthFactor = 0.65;
 
 var populateGraph = function() {
 	try {
