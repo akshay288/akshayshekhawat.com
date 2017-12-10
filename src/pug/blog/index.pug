@@ -7,11 +7,14 @@ mixin post(name, date, link)
 		div.post-meta
 			span.date #{date}
 
-block body
+mixin blogHeader(title, titleLink, back, backLink)
 	h1
-		a.page-title(href="/blog/") Akshay's Blog
+		a.page-title(href=titleLink)= title
 		= " "
-		a.page-title.subpage(href="/") (back to home)
-	h3 Posts
+		a.page-title.subpage(href=backLink)= back
+
+block body
+	+blogHeader("Akshay's Blog", "/blog/", "(back to home)","/")
+	h2 Posts
 	div.posts
-		| No posts
+		+post("Colors", "12-09-2017", "/blog/colors.html")

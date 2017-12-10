@@ -50,3 +50,18 @@ h2 {
 .keybase { background-color: #ff6f21; }
 .mail { background-color: gray; }
 .linkedin { background-color: #4875B4; }
+
+.post {
+	display: flex;
+	align-items: center;
+}
+
+.post .name {
+	margin-right: 40px;
+}
+
+.post-meta .date {
+	font-size: .9em;
+	color: grey;
+	font-weight: bold;
+}

@@ -1,0 +1,18 @@
+.color-container {
+	width: 100%;
+}
+
+.pic-container {
+	width: 100%;
+}
+
+.input-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 20px 0;
+}
+
+#equation-input {
+	font-size: 1.5em;
+}

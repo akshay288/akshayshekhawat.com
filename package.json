@@ -13,9 +13,8 @@
   "homepage": "https://github.com/akshay288/akshayshekhawat.com#readme",
   "private": true,
   "devDependencies": {
-	  "gulp": "^3.9.1",
-	  "gulp-pug": "^3.0.3",
-	  "gulp-sass": "^2.3.2",
-	  "gulp-uglify": "^1.5.3"
+    "gulp": "^3.9.1",
+    "gulp-pug": "^3.0.3",
+    "gulp-uglify": "^1.5.3"
   }
 }

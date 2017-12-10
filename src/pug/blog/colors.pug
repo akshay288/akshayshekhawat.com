@@ -1,0 +1,16 @@
+extends ./index.pug
+
+block css
+	link(rel="stylesheet", href="/colors.css")
+
+block js
+	script(src="//cdnjs.cloudflare.com/ajax/libs/mathjs/3.17.0/math.min.js")
+	script(src="/colors.js")
+
+block body
+	+blogHeader("Colors", "/blog/colors.html", "(back to blog)","/blog/")
+	div.color-container 
+		div.input-container
+			input#equation-input(value="pi")
+		div.pic-container
+			canvas#colors-canvas

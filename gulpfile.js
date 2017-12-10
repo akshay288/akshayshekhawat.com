@@ -1,12 +1,10 @@
 var gulp =   require('gulp');
-var sass =   require("gulp-sass");
 var pug =    require("gulp-pug");
 var uglify = require("gulp-uglify");
 
-gulp.task("sass", function() {
-	return gulp.src("src/scss/main.scss")
-		.pipe(sass())
-    	.pipe(gulp.dest("dist"));
+gulp.task("css", function() {
+	return gulp.src("src/css/*.css")
+		.pipe(gulp.dest("dist"));
 });
 
 gulp.task("pug-index", function() {
@@ -22,9 +20,19 @@ gulp.task("pug-blog", function() {
 });
 
 gulp.task("js", function() {
-	return gulp.src("src/js/main.js")
+	return gulp.src("src/js/*.js")
 		.pipe(uglify())
 		.pipe(gulp.dest("dist"));
 });
 
-gulp.task("default", ["js", "sass", "pug-index", "pug-blog"]);
+gulp.task("files", function() {
+	return gulp.src("src/files/*")
+		.pipe(gulp.dest("dist/files"));
+});
+
+gulp.task("keybase", function() {
+	return gulp.src("src/keybase.txt")
+		.pipe(gulp.dest("dist"));
+});
+
+gulp.task("default", ["files", "js", "css", "pug-index", "pug-blog", "keybase"]);
