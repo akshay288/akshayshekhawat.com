@@ -51,18 +51,16 @@ h2 {
 .mail { background-color: gray; }
 .linkedin { background-color: #4875B4; }
 
-.post {
-	display: flex;
-	align-items: center;
+.posts {
+	width: 100%;
 }
 
-.post .name {
-	margin-right: 40px;
+.post-name {
 	margin-bottom: 5px;
 	margin-top: 5px;
 }
 
-.post-meta .date {
+.post-meta {
 	font-size: .9em;
 	color: grey;
 	font-weight: bold;
