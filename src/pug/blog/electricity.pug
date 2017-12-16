@@ -1,0 +1,90 @@
+extends ./index.pug
+
+block head
+	title Electricity Disaggregation
+
+block body
+	+blogHeader("Electricity Dissagregation", "/blog/electricity.html", "(back to blog)","/blog/")
+	:markdown()
+		For the past year I have been doing research in the area of electricity
+		dissagregation. It was great, I published a paper. However, papers are
+		not all that great at explaining things to a wide group of people. I
+		thought I would write a description for a wider audience here.
+
+		In the U.S. we waste a ton of money on energy. Numerous solutions have
+		been proposed to help fix this problem. One solution involves giving
+		consumers detailed data on their electricity consumption and methods to
+		reduce it. Its been shown that, when given this data, consumers actually
+		do waste less electricity. In order to provide consumers with this data
+		we need to measure how much power each appliance in the household is
+		using. There are multiple ways to do this. One method is to place a
+		meter on each outlet. However, the monetary and environmental costs
+		associated with this method effectively balance out any gains. A
+		cheaper, but more technically complicated approach is to only measure
+		power consumption at one point, and infer each individual appliances
+		consumption from the small fluctuations in that signal.
+
+		![Figure 1](/files/electricity_figure_1.png)
+
+		The pretty picture above shows example power consumption measurements at
+		one point in a household. The steps in the series of data are called
+		episodes (labeled e~n~). These are times when the total power consumption
+		in the house changes, like when someone turns on the microwave. We can
+		infer a lot of information from these episodes.
+
+		The process we implemented to get detailed power consumption data from
+		each appliance can be summarized in 4 major steps:
+
+		1. Identify the times where the power consumption in the household
+		changed.
+		2. Calculate by how much the power consumption changed at each of those
+		times.
+		3. Determine which appliance caused each change in power consumption.
+		4. For each appliance, calculating its total power consumption from the
+		identified changes.
+
+		Our work focused on improving the state of the art for steps 3 and 4.
+		These are fairly difficult steps. For example, we may be able to
+		determine that an appliance in a household uses 100W, but we have no
+		clue which appliance it is. Plenty of appliances use 100W. A TV?
+		A game console? A really bright light? Without a large set of examples
+		or some sort of user input, there is no way to know. However, we can
+		identify how much power this unidentified appliance used and leave that
+		problem for later.
+
+		Let's then rephrase step 3. Instead of figuring out which appliances
+		caused each change in power consumption, let's figure out how which
+		changes in power consumption came from the same appliance and figure out
+		which appliance that was later.
+
+		The method we used to determine which power changes come from the same
+		appliances utilizes a simple set of rules. Any sequence of events comes
+		from thesame appliance if:
+
+		1. The sum of all power changes in the sequence must sum to zero. For
+		example, when you turn a light on and off the total power consumed
+		increases by ~60W and then decreases by ~60W.
+		2. The sum of a prefix of the sequence must not be less than zero. The
+		sequence (+200W, -100W, -100W) can come from the same appliance but the
+		sequence (+100W, -200W, +100W) cannot.
+
+		We implemented an iterative method to find these sequences. For each
+		power change, we started with a small window and iteratively increased
+		this window to find a set of power changes to create a sequence which
+		follows the rules above. Examples of these constructed sequences can
+		also be seen in the figure. Identical sequences can then be clustered
+		together to create the groups of changes which correspond to the same
+		appliance. We can then add up these changes to get the total power this
+		unidentified appliance consumed.
+
+		Discovering the actual appliance these power consumption values are for
+		is the next step. We did not actually implement this but there are
+		several possible routes to go down. One is to ask the user when they
+		turn on their appliance. Ideally, we would only have to ask them once
+		for each appliance. We could also label them by hand and store general
+		models for each appliance type.
+
+		While there is still a lot of work to be done in this area, the results
+		of this research were very promising and outperformed existing methods.
+		Additional information (and citations) can be found in the published
+		paper [here](/files/iterative_appliance_discovery.pdf).

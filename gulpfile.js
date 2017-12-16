@@ -14,8 +14,14 @@ gulp.task("pug-index", function() {
 });
 
 gulp.task("pug-blog", function() {
+	pug_filters = {
+		'markdown': function (text) {
+			var md = require('markdown-it')().use(require('markdown-it-sub'));
+			return md.render(text)
+		}
+	}
 	return gulp.src("src/pug/blog/*.pug")
-		.pipe(pug())
+		.pipe(pug({'filters': pug_filters}))
 		.pipe(gulp.dest("dist/blog"));
 });
 
