@@ -6,17 +6,20 @@
     "type": "git",
     "url": "git+https://github.com/akshay288/akshayshekhawat.com.git"
   },
+  "scripts": {
+    "start": "http-server dist -c-1"
+  },
   "author": "Akshay Shekhawat",
   "bugs": {
     "url": "https://github.com/akshay288/akshayshekhawat.com/issues"
   },
   "homepage": "https://github.com/akshay288/akshayshekhawat.com#readme",
   "private": true,
-  "devDependencies": {
+  "dependencies": {
     "gulp": "^3.9.1",
     "gulp-pug": "^3.0.3",
     "gulp-uglify": "^1.5.3",
-    "jstransformer-markdown-it": "^2.0.0",
-    "markdown-it-sub": "^1.0.0"
+    "highlightjs": "^9.10.0",
+    "jstransformer-markdown-it": "^2.0.0"
   }
 }
