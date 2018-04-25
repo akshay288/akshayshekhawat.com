@@ -3,7 +3,7 @@ extends ../template.pug
 mixin post(name, date, link)
 	tr.post
 		td
-			h3.post-name
+			h4.post-name
 				a(href=link) #{name}
 		td
 			span.post-meta.date #{date}
@@ -11,12 +11,12 @@ mixin post(name, date, link)
 mixin blogHeader(title, titleLink, back, backLink)
 	h1
 		a.page-title(href=titleLink)= title
-		= " "
+		= " ("
 		a.page-title.subpage(href=backLink)= back
+		= ")"
 
 block body
-	+blogHeader("Akshay's Blog", "/blog/", "(back to home)","/")
+	+blogHeader("Akshay's Blog", "/blog/", "back to home","/")
 	h2 Posts
 	table.posts
-		+post("Electricity Dissagregation", "12-15-2017", "/blog/electricity.html")
-		+post("Colors", "12-09-2017", "/blog/colors.html")
+		+post("Gradient Descent", "4-24-2018", "/blog/gradient-descent.html")

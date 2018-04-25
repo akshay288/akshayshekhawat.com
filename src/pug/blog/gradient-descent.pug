@@ -1,0 +1,236 @@
+extends ./index.pug
+
+block head
+	title Gradient Descent
+
+block body
+	+blogHeader("Gradient Descent", "/blog/gradient-descent.html", "back to blog","/blog/")
+	:markdown()
+		Machine learning is, in the most general terms, a method to learn the
+		relationships between different things. It's really easy to come up with
+		a function to describe some relationships. For example, given a certain
+		number of quarters, we can calculate the number of cents with the
+		function \\(f(quarters) = 25 * quarters\\).
+		
+		However, it's far more difficult (most of the time impossible) to create
+		a function which exactly describes more complicated relationships. For
+		these situations, instead of creating an exact function, we can learn an
+		approximate one.
+		
+		Creating a very general template for a function and using gradient
+		descent to optimize that template's parameters is one way to do this. To
+		learn how to use gradient descent, let's try to create a function which
+		approximates the number of square feet in a house given the number of
+		bedrooms and the number of bathrooms.
+
+		## Getting the data
+		Since gradient descent is a
+		[supervised learning](https://en.wikipedia.org/wiki/Supervised_learning)
+		algorithm, we need many example houses where we know the number of
+		bedrooms, bathrooms, and total square feet. Our algorithm will use this
+		data to learn an approximate function.
+
+		Luckily, [Kaggle](https://www.kaggle.com/) has an example
+		[dataset](https://www.kaggle.com/c/house-prices-advanced-regression-techniques/data)
+		which we can get our information from. There are two files of interest.
+		The file `train.csv` has a list of houses we can train our function on.
+		The file `test.csv` has a list of houses we can test our function on to
+		see how well it works.
+
+		The first step is to make a function which takes this data and sanitizes
+		it into something we can actually work with. The function below does
+		exactly that.
+
+	pre
+		code.python
+			| import numpy as np
+			| import pandas as pd
+			|
+			|
+			| def load_data(path):
+			| 	df = pd.read_csv(path)
+			|
+			| 	houses = []
+			|
+			| 	for _, row in df.iterrows():
+			|		square_feet = row['GrLivArea']
+			|		beds = row['BedroomAbvGr']
+			|		full_baths = row['BsmtFullBath'] + row['FullBath']
+			|		half_baths = row['BsmtHalfBath'] + row['HalfBath']
+			|
+			|		if any(np.isnan([square_feet, beds, full_baths, half_baths])):
+			|			continue
+			|
+			|		houses.append(
+			|			{
+			|				'beds': beds,
+			|				'baths': full_baths + (half_baths / 2),
+			|				'squarefeet': square_feet
+			|			}
+			|		)
+			|
+			|	return houses
+
+	:markdown()
+		## Choosing a function format
+		The next step is to choose a general form for the function we want to
+		learn. This can be as simple or complicated as we want. Lets start with
+		really simple and just multiply some constant to the sum of both the
+		beds and the baths.
+
+	pre
+		code.python
+			| def pred_squarefeet(beds, baths, a):
+			| 	return a * (beds + baths)
+
+	:markdown()
+		## Optimization
+		The only parameter to tune in `pred_squarefeet` is \\(a\\) so our goal
+		is to find a selection of \\(a\\) which gives us the best results. To do
+		this we need to have a measurement of how good a certain selection of
+		\\(a\\) actually is. If we know how good any specific selection is, we
+		can determine the best possible selection. This is done with a loss
+		function.
+
+	pre
+		code.python
+			| def loss(actual_squarefeet, beds, baths, a):
+			| 	return (actual_squarefeet - pred_squarefeet(beds, baths, a)) ** 2
+
+	:markdown()
+		This loss function gives us a metric of how bad our estimate is for any
+		given house. Now we just have to choose a value of \\(a\\) that
+		minimizes the total loss for all houses. The steps below show the
+		general process of using gradient descent to do this.
+
+		1. Choose a random value for \\(a\\).
+		2. Find out how changing \\(a\\) affects our loss for a specific house (Should we move it up or down?).
+		3. Slightly tweak \\(a\\) in the right direction by some small value.
+		4. Repeat steps `2` and `3` for each house in our dataset until \\(a\\) converges (until we are just tweaking \\(a\\) around 1 point).
+
+		Lets first find out how changing \\(a\\) affects our loss for a single
+		house. We can do this by finding the
+		[partial derivative](https://en.wikipedia.org/wiki/Partial_derivative)
+		of the loss function with respect to \\(a\\).
+		
+		*Note: We made the loss equal to the square of the difference rather
+		than the absolute value so the partial derivative is calculable.*
+
+	pre
+		code.python
+			| def a_loss_partial_deriv(bed, bath, a, actual_sf):
+			| 	return ((2 * a * (bed ** 2))
+			| 	        + (4 * a * bed * bath)
+			| 	        + (2 * a * (bath ** 2))
+			| 	        - (2 * bed * actual_sf)
+			| 	        - (2 * bath * actual_sf))
+
+	p
+		a(data-toggle="collapse" href="#partial-deriv") Here
+		= " "
+		| is how you calculate the partial derivative if you like math.
+
+	p
+		div#partial-deriv.collapse
+			div.card.card-body
+				| \begin{align}
+				| & \frac{\partial Loss}{\partial a} Loss(actualsquarefeet, beds, baths, a)\\~\\
+				| & = \frac{\partial Loss}{\partial a} (actualsquarefeet - (a \cdot (beds + baths)))^2 = \\~\\
+				| & = \frac{\partial Loss}{\partial a} ((a^2 \cdot beds^2) + (2 \cdot a^2 \cdot beds \cdot baths) \\
+				| & \qquad \qquad + (a^2 \cdot baths^2) - (2 \cdot a \cdot beds \cdot actualsquarefeet) \\
+				| & \qquad \qquad - (2 \cdot a \cdot baths \cdot actualsquarefeet) + actualsquarefeet^2) = \\~\\
+				| & = (2 \cdot a \cdot beds^2) \\
+				| & \qquad + (4 \cdot a \cdot beds \cdot baths) \\
+				| & \qquad + (2 \cdot a \cdot baths^2) \\
+				| & \qquad - (2 \cdot beds \cdot actualsquarefeet) \\
+				| & \qquad - (2 \cdot baths \cdot actualsquarefeet)
+				| \end{align}
+
+	:markdown()
+		If \\(\frac{\partial Loss}{\partial a}\\) is negative, increasing
+		\\(a\\) will decrease the loss for that specific house. If 
+		\\(\frac{\partial Loss}{\partial a}\\) is positive, decreasing \\(a\\)
+		will decrease the loss for a house. Lets loop through all of the houses
+		in our training dataset and tweak \\(a\\) in the right direction for
+		each one. The amount we tweak \\(a\\) is called the `LEARNING_RATE`.
+	
+	pre
+		code.python
+			| train_data = load_data(path_to_your_training_data)
+			|
+			| LEARNING_RATE = 0.01 # the amount we will tweak a
+			|
+			| a = 5 # set a to some random value
+			|
+			| for datum in train_data:
+			| 	beds = datum['beds']
+			| 	baths = datum['baths']
+			| 	actual_sf = datum['squarefeet']
+			|
+			| 	a_part_deriv = a_loss_partial_deriv(beds, baths, a, actual_sf)
+			|
+			| 	if a_part_deriv < 0:
+			| 		a += LEARNING_RATE
+			| 	elif a_part_deriv > 0
+			| 		a -= LEARNING_RATE
+
+	:markdown()
+		Note, that since our learning rate is really small, \\(a\\) may not
+		converge if we just loop over the training dataset once. To help it
+		converge, lets loop over it many times. The number of times we loop over
+		the training dataset is called how many `EPOCHS` we train for.
+
+	pre
+		code.python
+			| train_data = load_data(path_to_your_training_data)
+			|
+			| LEARNING_RATE = 0.01 # the amount we will tweak a
+			| EPOCHS = 1000
+			|
+			| a = 5 # set a to some random value
+			|
+			| for _ in range(EPOCHS):
+			| 	for datum in train_data:
+			| 		beds = datum['beds']
+			| 		baths = datum['baths']
+			| 		actual_sf = datum['squarefeet']
+			|
+			| 		a_part_deriv = a_loss_partial_deriv(beds, baths, a, actual_sf)
+			|
+			| 		if a_part_deriv < 0:
+			| 			a += LEARNING_RATE
+			| 		elif a_part_deriv > 0
+			| 			a -= LEARNING_RATE
+
+	:markdown()
+		## Testing
+		Now that we have our value for \\(a\\), lets test how good our
+		function actually is by finding the average error and loss of our
+		predictions on the test dataset.
+
+	pre
+		code.python
+			| test_data = load_data(path_to_your_test_data)
+			| loss = []
+			| errors = []
+			| for datum in test_data:
+			| 	beds = datum['beds']
+			| 	baths = datum['baths']
+			| 	expected_squarefeet = datum['squarefeet']
+			|
+			| 	actual_squarefeet = pred_squarefeet(beds, baths, a)
+			|
+			| 	loss.append(loss(actual_squarefeet, expected_squarefeet))
+			| 	errors.append(abs(expected_squarefeet - actual_squarefeet) / actual_squarefeet)
+			|
+			| avg_loss = sum(loss) / len(loss)
+			| avg_error = sum(errors) / len(errors)
+			|
+			| print('Loss: {}'.format(avg_loss))
+			| print('Error: {}'.format(avg_error))
+
+	:markdown()
+		Our algorithm has an average loss of \\(113766.75\\). In other words, it
+		is an average of \\(\sqrt{113766.75} = 337.30\\) square feet off. The
+		average error is \\(17.5\\%\\). This isn't bad for such a simple model.
+		We'll try to improve the accuracy in a future post.

@@ -3,8 +3,11 @@ doctype html
 html
 	head
 		meta(name="viewport", content="width=device-width, initial-scale=1")
+		link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css")
 		link(rel="stylesheet", href="//file.myfontastic.com/n6vo44Re5QaWo8oCKShBs7/icons.css")
+		link(rel="stylesheet", href="/solarized-dark.css")
 		link(rel="stylesheet", href="/main.css")
+		script(type="text/javascript" async=true src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML")
 		block css
 		block head
 			title Akshay Shekhawat
@@ -12,6 +15,9 @@ html
 		div.main-content
 			block body
 				| TODO
-		script(src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
+		script(src="https://code.jquery.com/jquery-3.2.1.slim.min.js")
+		script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js")
+		script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js")
+		script(src="/highlight.pack.min.js")
 		script(src="/main.js")
 		block js
