@@ -57,4 +57,4 @@ gulp.task("keybase", function() {
 		.pipe(gulp.dest("dist"));
 });
 
-gulp.task("default", ["files", "js", "css", "pug-index", "pug-blog", "keybase", "highlightjs"]);
+gulp.task("default", gulp.parallel(["files", "js", "css", "pug-index", "pug-blog", "keybase", "highlightjs"]));
