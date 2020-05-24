@@ -5,25 +5,18 @@ block body
 		a.page-title(href="/", title="home") Akshay Shekhawat
 	p
 		| Hello, I am a software developer in San Francisco.
-		| You can see the side projects I am currently working on at my
-		= " "
-		a(href="//github.com/akshay288") github
-		| .
-		= " "
-		a(href="/files/public_key.txt") My Public Key
-		| .
 		= " "
 		a(href="/blog/") My blog
 		| .
-	div.external-websites
-		a.github(href="//github.com/akshay288", target="_blank")
-			i.socicon-github
-		a.linkedin(href="//www.linkedin.com/in/akshay-shekhawat/", target="_blank")
-			i.socicon-linkedin
-		a.keybase(href="//keybase.io/akshay288", target="_blank")
-			i.socicon-keybase
-		a.mail(href="mailto:akshay.shekhawat@gmail.com")
-			i.socicon-mail
+	ul.external-websites
+		li
+			a.github(href="//github.com/akshay288", target="_blank") Github
+		li
+			a.linkedin(href="//www.linkedin.com/in/akshay-shekhawat/", target="_blank") LinkedIn
+		li
+			a.mail(href="mailto:akshay.shekhawat@gmail.com") Mail
+		li
+			a(href="/files/public_key.txt") My Public Key
 	h2 Publications
 	p
 		| Valovage, M., Shekhawat, A. and Gini, M.
